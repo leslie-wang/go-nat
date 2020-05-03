@@ -4,6 +4,7 @@ package nat
 import (
 	"context"
 	"errors"
+	"fmt"
 	"math"
 	"math/rand"
 	"net"
@@ -84,10 +85,7 @@ func DiscoverNATs(ctx context.Context) <-chan NAT {
 }
 
 // DiscoverGateway attempts to find a gateway device.
-func DiscoverGateway() (NAT, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
+func DiscoverGateway(ctx context.Context) (NAT, error) {
 	var nats []NAT
 	for nat := range DiscoverNATs(ctx) {
 		nats = append(nats, nat)
@@ -98,16 +96,26 @@ func DiscoverGateway() (NAT, error) {
 	case 1:
 		return nats[0], nil
 	}
-	gw, _ := gateway.DiscoverGateway()
+	gw, err := gateway.DiscoverGateway()
+	if err != nil {
+		return nil, nil
+	}
 	bestNAT := nats[0]
-	natGw, _ := bestNAT.GetDeviceAddress()
+	natGw, err := bestNAT.GetDeviceAddress()
+	if err != nil {
+		return nil, nil
+	}
 	bestNATIsGw := gw != nil && natGw.Equal(gw)
 	// 1. Prefer gateways discovered _last_. This is an OK heuristic for
 	// discovering the most-upstream (furthest) NAT.
 	// 2. Prefer gateways that actually match our known gateway address.
 	// Some relays like to claim to be NATs even if they aren't.
 	for _, nat := range nats[1:] {
-		natGw, _ := nat.GetDeviceAddress()
+		natGw, err := nat.GetDeviceAddress()
+		if err != nil {
+			fmt.Printf("no address for nat: %v\n", nat)
+			continue
+		}
 		natIsGw := gw != nil && natGw.Equal(gw)
 
 		if bestNATIsGw && !natIsGw {

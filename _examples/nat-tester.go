@@ -1,16 +1,20 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
 
-	"github.com/fd/go-nat"
+	"github.com/leslie-wang/go-nat"
 )
 
 func main() {
-	nat, err := nat.DiscoverGateway()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	nat, err := nat.DiscoverGateway(ctx)
 	if err != nil {
 		log.Fatalf("error: %s", err)
 	}
@@ -34,7 +38,7 @@ func main() {
 	}
 	log.Printf("external address: %s", eaddr)
 
-	eport, err := nat.AddPortMapping("tcp", 3080, "http", 60 * time.Second)
+	eport, err := nat.AddPortMapping("tcp", 3080, "http", 60*time.Second)
 	if err != nil {
 		log.Fatalf("error: %s", err)
 	}
@@ -45,7 +49,7 @@ func main() {
 		for {
 			time.Sleep(30 * time.Second)
 
-			_, err = nat.AddPortMapping("tcp", 3080, "http", 60 * time.Second)
+			_, err = nat.AddPortMapping("tcp", 3080, "http", 60*time.Second)
 			if err != nil {
 				log.Fatalf("error: %s", err)
 			}
