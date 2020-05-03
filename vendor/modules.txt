@@ -1,0 +1,38 @@
+# github.com/huin/goupnp v1.0.0
+github.com/huin/goupnp
+github.com/huin/goupnp/dcps/internetgateway1
+github.com/huin/goupnp/dcps/internetgateway2
+github.com/huin/goupnp/httpu
+github.com/huin/goupnp/scpd
+github.com/huin/goupnp/soap
+github.com/huin/goupnp/ssdp
+# github.com/jackpal/gateway v1.0.6
+github.com/jackpal/gateway
+# github.com/jackpal/go-nat-pmp v1.0.2
+github.com/jackpal/go-nat-pmp
+# github.com/koron/go-ssdp v0.0.0-20191105050749-2e1c40ed0b5d
+github.com/koron/go-ssdp
+# golang.org/x/net v0.0.0-20181011144130-49bb7cea24b1
+golang.org/x/net/html/charset
+golang.org/x/net/ipv4
+golang.org/x/net/html
+golang.org/x/net/bpf
+golang.org/x/net/internal/iana
+golang.org/x/net/internal/socket
+golang.org/x/net/html/atom
+# golang.org/x/text v0.3.0
+golang.org/x/text/encoding
+golang.org/x/text/encoding/charmap
+golang.org/x/text/encoding/htmlindex
+golang.org/x/text/transform
+golang.org/x/text/encoding/internal/identifier
+golang.org/x/text/encoding/internal
+golang.org/x/text/encoding/japanese
+golang.org/x/text/encoding/korean
+golang.org/x/text/encoding/simplifiedchinese
+golang.org/x/text/encoding/traditionalchinese
+golang.org/x/text/encoding/unicode
+golang.org/x/text/language
+golang.org/x/text/internal/utf8internal
+golang.org/x/text/runes
+golang.org/x/text/internal/tag
